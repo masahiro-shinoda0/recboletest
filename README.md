@@ -18,4 +18,5 @@
 `python -m venv rec_env`\
 `source rec_env/bin/activate`\
 `recbole`のインストールは以下のコマンド\
-`pip install recbole`
+`pip install recbole`\
+`Python 3.13`だと，新しすぎて`pytorch`などが対応していなく，エラーが起きる．その為，仮想環境を使ったうえで，`Python3`のライブラリを直接書き換える．
