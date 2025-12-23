@@ -1,5 +1,6 @@
 # recboletest
-2025/12/08に作成。動かない。
+2025/12/08に作成。`sinki.py`と`sinki.yaml`は動かない。\
+2025/12/22から，[`stat.ink`](https://stat.ink/)のデータを利用した推薦システムの作成を開始．\
 
 使い方　忘れるからメモ\
 `anaconda prompt` を起動し，`conda activate recbole` と打つ\
