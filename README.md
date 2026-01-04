@@ -57,3 +57,21 @@ myproject/
 ├── config.yaml              # 設定ファイル
 └── train.py                 # 学習用スクリプト
 ```
+
+## 2026/01/04
+`ModuleNotFoundError: No module named 'ray'`このエラーが起きたら，以下のコマンドを実行する．
+```
+pip install ray
+```
+`ModuleNotFoundError: No module named 'pyarrow'`このエラーが起きたら，以下のコマンドを実行する．
+```
+pip install pyarrow
+```
+`ModuleNotFoundError: No module named 'pydantic'`このエラーが起きたら，以下のコマンドを実行する．
+```
+pip install pydantic
+```
+仮想環境のアクティベートはこれを実行．
+```
+source bin/activate
+```
