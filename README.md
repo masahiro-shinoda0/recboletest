@@ -13,22 +13,22 @@ conda activate recbole
 `cd` でファイルのある階層に移動できる．\
 `python xxx.py` で`Python`を実行できる．\
 `dir` コマンドで，作成した `saved` フォルダを見つける．\
-`saved` フォルダ内にある`xxx.pth`を使って，新規ユーザの推薦を行う．`pth`は`PyTorch`のモデルデータである．\
+`saved` フォルダ内にある`.pth`を使って，新規ユーザの推薦を行う．`.pth`は`PyTorch`のモデルデータである．\
 `hyper parameter` の設定は，レファレンスを読んで理解する．\
-`epoch`はエポック数であり，これは学習する回数である．エポック数が大きいとき，ノートパソコンだと遅すぎて終わらない．\
-`xxx.yaml`にはパラメータの詳細を記す．`yaml`とは，`html`や`xml`などのデータ形式の一つ．\
-学習は，何度か試して，一番良いパラメータを探す．\
+`epoch`はエポック数であり，これは学習する回数である．エポック数が大きいとき，自前のノートパソコンだと遅すぎて終わらないため，研究室のサーバーを利用する．\
+`.yaml`にはパラメータの詳細を記す．`.yaml`とは，`.html`や`.xml`などのデータ形式のうちの一つ．\
+学習は，何度か試すことで，一番良いパラメータを探す．\
 `TensorBoard` で機械学習の結果を可視化，学習曲線をプロットできる．\
-自分のノートパソコンだと厳しいので，サーバーを使う．\
-サーバーを使う際は，以下のコマンドを実行する．
+自前のノートパソコンだと厳しいので，サーバーを使う．\
+サーバーを使う際は，まず以下のコマンドを実行し，鍵を取得する．
 ```
 ssh-keygen -t ED25519
 ```
-これで，鍵を取得できる．`ssh xxx`でサーバーに接続する．
+これで，鍵（秘密鍵、公開鍵）を取得できる．`ssh xxx`でサーバーに接続する．
 
 
 ## 2025/12/22
-`Python`は仮想環境で行うことを推奨．以下のコマンドを実行する．
+`Python`は仮想環境で行うことを推奨．以下のコマンドを実行し、仮想環境を構築する．
 ```
 python -m venv rec_env
 source rec_env/bin/activate
@@ -79,18 +79,17 @@ source bin/activate
 ```
 pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu130
 ```
-次に，`PyTorch`のコードを改変する．`venv`の場合，`env/lib/python3.13/site-packages/recbole/trainer/trainer.py`の583行目を以下のように変更．\
+次に，`PyTorch`の一部のコードを改変する．`venv`の場合，`env/lib/python3.13/site-packages/recbole/trainer/trainer.py`の583行目を以下のように変更．\
 `checkpoint = torch.load(checkpoint_file, map_location=self.device, weights_only=False)`
 
 ## 2026/01/06
-`run.py`を実行してできた`pth`ファイルをもとに，推論用の`predict.py`を使用して，精度を確かめた．当初の予測精度と推論の結果は以下のようになった．
+`run.py`を実行してできた`.pth`ファイルをもとに，推論用の`predict.py`を使用して，精度を確かめた．当初の予測精度と推論の結果は以下のようになった．
 ```
 auc : 0.6073    logloss : 0.6711
 
 05 Jan 00:17    INFO  Finished training, best eval result in epoch 23
 ```
 ```
-
 --- sshooter のおすすめギアパワー TOP10 ---
 1: comeback             (Score: 0.5176)
 2: ink_resistance_up    (Score: 0.4962)
@@ -115,7 +114,7 @@ auc : 0.6073    logloss : 0.6711
 9: stealth_jump         (Score: 0.5077)
 10: ink_saver_main       (Score: 0.5068)
 ```
-次に，UI作成を試みた．`Google Colab`でノートブックを新たに作成した．`recbole.jpynb`とした．以下をセルで実行して，フォルダを作成．
+次に，UI作成を試みた．`Google Colab`でノートブックを新たに作成した．`recbole.jpynb`とした．以下をセルで実行して，フォルダを作成する．
 ```
 !mkdir -p dataset/splatoon3
 ```
