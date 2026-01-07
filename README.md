@@ -92,6 +92,7 @@ pip3 install torch torchvision --index-url https://download.pytorch.org/whl/cu13
 `checkpoint = torch.load(checkpoint_file, map_location=self.device, weights_only=False)`
 
 ## 2026/01/06
+### ver 1.0
 `run.py`を実行してできた`.pth`ファイルをもとに，推論用の`predict.py`を使用して，精度を確かめた．当初の予測精度と推論の結果は以下のようになった．
 ```
 auc : 0.6073    logloss : 0.6711
@@ -123,7 +124,7 @@ auc : 0.6073    logloss : 0.6711
 9: stealth_jump         (Score: 0.5077)
 10: ink_saver_main       (Score: 0.5068)
 ```
-次に，UI作成を試みた．`Google Colab`でノートブックを新たに作成した．`recbole.jpynb`とした．以下をセルで実行して，フォルダを作成する．
+次に，UI作成を試みた．[`Google Colab`](https://colab.research.google.com/)でノートブックを新たに作成した．`recbole.jpynb`とした．まず，以下をセルで実行して，フォルダを作成する．
 ```
 !mkdir -p dataset/splatoon3
 ```
@@ -135,7 +136,7 @@ auc : 0.6073    logloss : 0.6711
 フォルダ内に`app.py`を作成し，アプリケーションのメイン部分とする．`streamlit`というフレームワークを使い，ブラウザ上で動くアプリを作る．`localtunnel`を組み合わせて，一時的にWebアプリを外部公開する．\
 `splatoon3.inter`と`.pth`ファイルを使い，アプリを動かす．`Colab`上のディレクトリ構造は以下のようである．
 ```
-recbole_project/
+myproject/
 ├── dataset/
 │   └── splatoon3/
 │       └── splatoon3.inter  # 作成したファイル
