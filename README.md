@@ -51,6 +51,7 @@ pip install recbole
 `Nintendo Switch`のゲームソフト`Splatoon 3`において，ブキとルール，ステージを選択したら，おすすめのギアパワーを教えてくれる推薦システムを作りたい．\
 まずは，`dataset`を作成する．`splatoon 3`の詳細なバトル結果を入手したいので，`stat.ink`よりデータをダウンロードする．[ここ](https://stat.ink/downloads)からダウンロードできる．\
 `splatoon 3`では，各シーズンごとに調整が入るため，直近1週間ほどのデータからデータセットを作成する．ためしに直近1週間分のデータでデータセットを作成したら，約66万件と十分なデータを得ることができた．\
+データセットは，`weapon_id`(ブキ)，`mode`(ルール)，`stage`(ステージ)，'ability_id'(ギアパワー)，`label`(勝ち負け)をそれぞれ記述する．勝ち負けについては，勝ちを`label=1.0`，負けを`label=0.0`として`flag`を作成する．\
 `trainer.py`で作成したデータセット`splatoon3.inter`を用いて，モデルを作成する．`train.py`と`config.yaml`を使って，サーバー上で実行してモデルを作成する．\
 以下のようにディレクトリを構成した．
 ```
@@ -124,6 +125,7 @@ auc : 0.6073    logloss : 0.6711
 9: stealth_jump         (Score: 0.5077)
 10: ink_saver_main       (Score: 0.5068)
 ```
+また，この時使用していた`config.yaml`の設定は，`model: FM`であった．\
 次に，UI作成を試みた．[`Google Colab`](https://colab.research.google.com/)でノートブックを新たに作成した．`recbole.jpynb`とした．まず，以下をセルで実行して，フォルダを作成する．
 ```
 !mkdir -p dataset/splatoon3
@@ -142,3 +144,12 @@ myproject/
 │       └── splatoon3.inter  # 作成したファイル
 └── xxx.pth                  # PyTorchのモデル
 ```
+作成したUIのスクリーンショットを以下に掲載する．これは何度か試したのちに作成したものであるので，上の結果とは一致しない．
+<p align="center">
+  <img src="src/readme/images/sample.png" width="600" alt="sample.png">
+</p>
+
+非常にシンプルな見た目となっているが，`Google Colab`を使って，ひとまずUIとして形にできた．
+
+### ver 2.0
+ver 1.0 で作成したデータセットの`splatoon3.inter`には致命的なデータの欠落があった．それは，ユーザーのギアパワーが考慮されていない点である．ユーザーのギアパワーが考慮されていないため，ギアパワーがすべて同じ値として処理されていた．
