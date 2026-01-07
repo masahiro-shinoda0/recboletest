@@ -1,7 +1,8 @@
 # recboletest
 [`RecBole`](https://www.recbole.io/index.html)を使ったゼミの課題に取り組むうえで，気になったことを以下に書き記す．\
 2025/12/08に作成．`sinki.py`と`sinki.yaml`は動かない．\
-2025/12/22から，[`stat.ink`](https://stat.ink/)のデータを利用した推薦システムの作成を開始．
+2025/12/22から，[`stat.ink`](https://stat.ink/)のデータを利用した推薦システムの作成を開始．\
+2026/01/06から，[`Google Colab`](https://colab.research.google.com/)上で動く[`Streamlit`](https://streamlit.io/)を利用したUIの作成を開始．
 
 
 ## 2025/12/08
@@ -236,4 +237,10 @@ total GP = 5.7
   14 | respawn_punisher          | 0.0626 | -0.0118  #
   15 | ink_recovery_up           | 0.1506 | -0.0124  ##
 ```
-また，私による個人的な評価を以前と同様`#`の数で表示した．結果を見るに，実践で使えそうな精度に仕上がってきたと感じる．
+また，私による個人的な評価を以前と同様`#`の数で表示した．結果を見るに，実践で使えそうな精度に仕上がってきたと感じる．特に`intensify_action(アクション強化)`が推薦の上位に入ったのは良かった．一方，`thermal_ink(サーマルインク)`などの，短射程シューター(52ガロンなど)ではほとんど使われないようなギアが入っているのが少し気がかりであった．よって，まだ改善の余地があるように思える．\
+
+## 2025/01/08
+
+ここで，データセットを新たに作り直すことを考える．これまでのデータセットには，すべてのルール(`model: nawabari, area, yagura, hoko, asari`)，すべてのランク帯(`lobby: regular, bankara_challenge, bankara_open, xmatch, splatfest_challenge, splatfest_open, event`)が含まれていた．\
+しかし，これらのユーザーが皆100%本気でゲームをプレイしているわけではなく，そこには明らかな偏りがある．そこで，比較的緩くプレイすることが多い`model: nawabari`を除き，学習に使用するデータは，全ユーザのうち上位10%ほどの`lobby: xmatch`のみを採用することにする．\
+以上より，`trainer.py`を改変し，データセットを作り直した．
