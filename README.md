@@ -194,7 +194,21 @@ myproject/
 │       └── splatoon3.inter  # 作成したファイル
 └── xxx.pth                  # PyTorchのモデル
 ```
-作成したUIのスクリーンショットを以下に掲載する．これは何度か試したのちに作成したものであるので，上の結果とは一致しない．
+`localtunnel`を使うには，以下のコマンドをセルで実行する．まず，`グローバルIPアドレス`を取得する．
+```
+!curl ipv4.icanhazip.com
+```
+表示されたIPアドレスは，コピーする．\
+次に，`localtunnel`をバックグラウンドで起動する．
+```
+streamlit run app.py &
+```
+最後に，`localtunnel`を起動する．ポート8501を指定する．
+```
+npx localtunnel --port 8501
+```
+表示された`https://xxx.loca.lt`にアクセスし、IPアドレスを入力する．\
+以下に作成したUIのスクリーンショットを以下に掲載する．これは何度か試したのちに作成したものであるので，上の結果とは一致しない．
 <p align="center">
   <img src="src/readme/images/sample.png" width="600" alt="sample.png">
 </p>
