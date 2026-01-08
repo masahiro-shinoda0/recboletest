@@ -9,7 +9,7 @@ np.long = np.int64
 
 def recommend_with_lift(weapon_name):
     # 1. 最新のモデルファイル名に更新
-    model_file = 'saved/FM-Jan-08-2026_03-17-38.pth' 
+    model_file = 'saved/FM-Jan-08-2026_03-48-50.pth' 
     
     if not torch.cuda.is_available():
         device = torch.device('cpu')
@@ -66,19 +66,45 @@ def recommend_with_lift(weapon_name):
         # 特化度 = ターゲットスコア - 全ブキ平均
         lift_scores = target_scores - avg_scores
 
+    # ・・・（前半の計算部分はそのまま）・・・
+
+    # 結果をリストに格納
     results = []
     for i, token in enumerate(ability_tokens):
-        results.append((token, target_scores[i].item(), lift_scores[i].item()))
+        results.append({
+            'name': token,
+            'score': target_scores[i].item(),
+            'lift': lift_scores[i].item()
+        })
     
-    # 特化度(Lift)が大きい順にソート
-    results.sort(key=lambda x: x[2], reverse=True)
+    # 1. 予測スコア順（純粋に採用率・評価が高い順）
+    results_raw = sorted(results, key=lambda x: x['score'], reverse=True)
 
-    print(f"\n✨ 【{weapon_name}】の特化度（リフト値）ランキング (Xマッチ限定モデル)")
-    print("-" * 75)
-    print(f"{'順位':<4} | {'ギアパワー名':<25} | {'予測スコア':<10} | {'特化度(偏差)'}")
-    print("-" * 75)
-    for i, (name, raw_score, lift) in enumerate(results[:15]):
-        print(f"{i+1:>4} | {name:<25} | {raw_score:.4f} | {lift:+.4f}")
+    # 2. 特化度順（他のブキとの差が大きい順）
+    results_lift = sorted(results, key=lambda x: x['lift'], reverse=True)
+
+    print(f"\n===== 🦑 【{weapon_name}】 推論結果レポート (Xマッチ限定モデル) =====")
+
+    # --- ランキング1: 純粋な予測スコア順 ---
+    print(f"\n📊 [1. 総合おすすめ順] (汎用的に評価が高いもの)")
+    print("-" * 65)
+    print(f"{'順位':<4} | {'ギアパワー名':<25} | {'予測スコア':<10}")
+    print("-" * 65)
+    for i, res in enumerate(results_raw[:10]):
+        print(f"{i+1:>4} | {res['name']:<25} | {res['score']:.4f}")
+
+    # --- ランキング2: 特化度（リフト値）順 ---
+    print(f"\n✨ [2. 特化度順] (このブキならではのギア)")
+    print("-" * 65)
+    print(f"{'順位':<4} | {'ギアパワー名':<25} | {'特化度(偏差)':<10}")
+    print("-" * 65)
+    for i, res in enumerate(results_lift[:10]):
+        print(f"{i+1:>4} | {res['name']:<25} | {res['lift']:+ .4f}")
+
+    print("\n※「総合おすすめ」には、どのブキでも強い汎用ギア（ステジャン等）が出やすくなります。")
+    print("※「特化度」には、そのブキの弱点を補うものや長所を伸ばすものが選ばれます。")
+
+# ・・・（末尾の実行部分はそのまま）・・・
 
 if __name__ == '__main__':
     # .52ガロンで検証
