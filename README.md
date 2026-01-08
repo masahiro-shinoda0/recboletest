@@ -107,7 +107,11 @@ pip install recbole
 myproject/
 ├── dataset/
 │   └── splatoon3/
-│       └── splatoon3.inter  # 作成したファイル
+│   │   └── splatoon3.inter  # 作成したデータセット
+│   └── splatoon3_xmatch/
+│   │   └── splatoon3_xmatch.inter  # 作成したデータセット
+│   └── splatoon3_xmatch_onlywin/
+│       └── splatoon3_xmatch_onlywin.inter  # 作成したデータセット
 ├── config.yaml              # 設定ファイル
 ├── train.py                 # 学習用スクリプト
 ├── predict.py               # 推論用スクリプト
@@ -412,3 +416,13 @@ grep "52gal" dataset/splatoon3_xmatch/splatoon3_xmatch.inter | grep "area" | gre
 grep "52gal" dataset/splatoon3_xmatch/splatoon3_xmatch.inter | grep "area" | grep "quick_super_jump" | grep "0.0" | wc -l
 ```
 結果は`227`と`162`となった．よって，やはり負例サンプリングが原因であったことが確認できた．
+
+### 負例サンプリングについて
+負例サンプリングをしないでデータセットを作成したらどうなるか，試してみた．`splatoon3_xmatch_onlywin.inter`とし，学習したところ，結果は以下のようになった．
+```
+09 Jan 03:20    INFO  best valid : OrderedDict({'auc': 0.6474, 'logloss': 0.6503})
+09 Jan 03:20    INFO  test result: OrderedDict({'auc': 0.6447, 'logloss': 0.6509})
+```
+先ほどは`auc: 0.898`であったことを考えると，負例サンプリングは必要な処理であることが分かった．
+
+では，どうすればよいか．負例サンプリングはこのまま活用し，かつ`stealth_jump`などのギアに負のバイアスがかからないようにしたい．
