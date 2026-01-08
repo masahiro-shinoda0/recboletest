@@ -27,6 +27,7 @@ conda activate recbole
 学習を行うことで`saved` フォルダ内に作成される`.pth`を使って，新規ユーザの推薦を行う．`.pth`は`PyTorch`のモデルデータである．\
 `hyper parameter` の設定は，レファレンスを読んで理解する．
 ### `RecBole`における`Hyperparameter`設定
+`RecBole`の[公式ドキュメント](https://recbole.io/docs/user_guide/usage/parameter_tuning.html)より詳細を確認できる．
 - `Training Settings(訓練設定)`
   - `learning_rate`：学習率
   - `train_batch_size`：一度に計算するデータのサイズ
@@ -65,7 +66,7 @@ conda activate recbole
 `epoch`はエポック数であり，これは学習する回数である．エポック数が大きいとき，自前のノートパソコンだと遅すぎて終わらないため，研究室のサーバーを利用する．\
 `.yaml`にはパラメータの詳細を記す．`.yaml`とは，`.html`や`.xml`などのデータ形式のうちの一つ．\
 学習は，何度か試すことで，一番良いパラメータを探す．\
-`TensorBoard` で機械学習の結果を可視化，学習曲線をプロットできる．使用する際は，以下のコマンドを実行
+`TensorBoard` で機械学習の結果を可視化，学習曲線をプロットできる．[公式ドキュメント](https://recbole.io/docs/user_guide/usage/use_tensorboard.html)に使い方が詳細に書かれている．使用する際は，以下のコマンドを実行
 ```
 tensorboard --logdir ./logs
 ```
